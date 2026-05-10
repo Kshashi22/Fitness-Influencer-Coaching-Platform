@@ -1,232 +1,283 @@
-# Fitness Influencer Coaching Platform (DB Design)
 
-## Problem Statement
-A fitness influencer has started an online coaching business. Initially, they train a few people through Instagram DMs and video calls. As their brand grows, they need a structured platform to manage clients, coaching plans, consultations, subscriptions, payments, and progress tracking.
-
-This system is designed as an **online coaching ecosystem**, not a gym management system.
-
----
-
-## Objective
-To design an ER diagram that supports:
-
-- Client and trainer management  
-- Plan and subscription handling  
-- Session and consultation scheduling  
-- Progress tracking (weight, reports, check-ins)  
-- Payment and transaction records  
-
----
-
-### ER Diagram:
 ![ER Diagram](./fitness.jpg)
 
 
-## Entities (Tables)
+# Fitness Influencer Coaching Platform
 
-### 1. users
-Stores all platform users.
+## Project Overview
 
-- A user can be either a **client or a trainer**
-- Common authentication and identity data is stored here
+The **Fitness Influencer Coaching Platform** is a modern web application designed for fitness influencers, personal trainers, and fitness enthusiasts to connect, manage coaching programs, track fitness progress, and build online fitness communities.
 
-**Fields:**
-- id (PK)
-- userName
-- email
-- password
-- created_at
-- updated_at
+The platform allows influencers to create personalized workout and diet plans, interact with clients, schedule coaching sessions, and provide fitness guidance through a digital ecosystem. Users can join fitness programs, monitor their progress, and access premium fitness content from their favorite trainers.
 
----
+This project focuses on:
 
-### 2. clients
-Represents users who are enrolled as clients.
-
-- A client is linked to one user
-- A client is assigned to a trainer
-- A client can subscribe to multiple plans over time
-
-**Fields:**
-- id (PK)
-- user_id (FK → users.id)
-- trainer_id (FK → trainers.id)
-- membership (gold / silver / bronze)
-- joined_date
-- created_at
-- updated_at
+* Online fitness coaching
+* Personalized fitness tracking
+* Creator-based fitness communities
+* Subscription-based training programs
+* Digital health and wellness management
 
 ---
 
-### 3. trainers
-Represents coaches/influencers on the platform.
+# Objectives
 
-- A trainer can manage multiple clients
-
-**Fields:**
-- id (PK)
-- user_id (FK → users.id)
-- category (consultation / live_coaching / gym_trainer)
-- joined_date
-- created_at
-- updated_at
+* Build a centralized online fitness coaching platform
+* Enable influencers to manage clients digitally
+* Provide personalized workout and diet plans
+* Track fitness goals and user progress
+* Improve accessibility to fitness coaching services
 
 ---
 
-### 4. trainer_details
-Stores extended information about trainers.
+# Features
 
-**Fields:**
-- id (PK)
-- trainer_id (FK → trainers.id)
-- name
-- address
-- experience
-- ratings (1–5)
-- created_at
-- updated_at
+## User Authentication
 
----
+* Secure signup and login
+* Role-based authentication
+* Profile management
 
-### 5. client_detail
-Stores additional client profile data.
+## Influencer Profiles
 
-**Fields:**
-- id (PK)
-- client_id (FK → clients.id)
-- trainer_id
-- name
-- address
-- created_at
-- updated_at
+* Fitness trainer profiles
+* Experience and certification details
+* Social media integration
+* Follower and subscription system
 
----
+## Workout Programs
 
-### 6. checkIn
-Represents periodic client check-ins.
+* Create and manage workout routines
+* Categorize programs by fitness goals
+* Video and image-based exercise guidance
 
-- Used for tracking consistency and engagement
-- Separate from sessions
+## Diet and Nutrition Plans
 
-**Fields:**
-- id (PK)
-- last_session
-- next_session
-- submitted_at
-- created_at
-- updated_at
+* Personalized meal plans
+* Calorie and nutrition tracking
+* Daily diet recommendations
 
----
+## Fitness Progress Tracking
 
-### 7. logs
-Stores progress tracking data.
+* Weight and BMI tracking
+* Workout completion history
+* Goal progress visualization
 
-- Linked to check-ins
-- Includes body metrics and reports
+## Live Coaching Sessions
 
-**Fields:**
-- id (PK)
-- checkIn_id (FK → checkIn.id)
-- trainer_id (FK → trainers.id)
-- weight
-- height
-- status_report
-- created_at
-- updated_at
+* Schedule live sessions
+* Video consultation support
+* Session reminders and notifications
+
+## Subscription and Membership
+
+* Paid coaching plans
+* Premium fitness content access
+* Membership management
+
+## Community Features
+
+* Fitness discussion forums
+* Comment and like system
+* User engagement activities
+
+## Admin Dashboard
+
+* Manage users and influencers
+* Track subscriptions and analytics
+* Monitor platform activities
 
 ---
 
-### 8. health_plans
-Represents workout/diet/yoga plans.
+# Tech Stack
 
-**Fields:**
-- id (PK)
-- checkIn_id (FK → checkIn.id)
-- trainer_id (FK → trainers.id)
-- type (diet / workout / yoga)
-- duration
-- status (completed / ongoing)
-- created_at
-- updated_at
+## Frontend
 
----
+* React.js
+* Tailwind CSS
+* HTML5
+* JavaScript
 
-### 9. plan_details
-Represents purchasable coaching plans.
+## Backend
 
-- Multiple clients can purchase the same plan
+* Node.js
+* Express.js
 
-**Fields:**
-- id (PK)
-- type (consultation / live / gym)
-- price
-- duration
-- details
-- purchased_at
-- valid_till
-- created_at
-- updated_at
+## Database
 
----
+* MongoDB
 
-### 10. payment
-Stores transaction details.
+## Authentication
 
-**Fields:**
-- id (PK)
-- client_id (FK → clients.id)
-- payment_id
-- amount
-- status (paid / pending / failed / refunded)
-- method
-- created_at
-- updated_at
+* JWT Authentication
+* Firebase Authentication (Optional)
+
+## Cloud & Deployment
+
+* Vercel
+* Render
+* Railway
+* Netlify
 
 ---
 
-## Relationships & Cardinality
+# Folder Structure
 
-- One **user → one client OR one trainer**
-- One **trainer → many clients**
-- One **client → many plans (over time)**
-- One **plan → many clients**
-- One **client → many check-ins**
-- One **check-in → many logs**
-- One **trainer → many health plans**
-- One **client → many payments**
-- One **payment → one plan**
-
----
-
-## Key Design Decisions
-
-- Separation of users, clients, and trainers for flexibility  
-- Check-ins separated from logs for structured progress tracking  
-- Plans abstracted to support multiple coaching types  
-- Payments handled separately for clean financial tracking  
-- Health plans linked to check-ins for dynamic updates  
-
----
-
-## Assumptions
-
-- A user can either be a trainer or a client  
-- A client is assigned to one trainer at a time  
-- Plans are reusable across multiple clients  
-- Progress tracking happens via check-ins  
-- Sessions and check-ins are treated differently  
+```plaintext id="sgv7rq"
+Fitness-Influencer-Coaching-Platform/
+│
+├── client/
+│   ├── components/
+│   ├── pages/
+│   ├── assets/
+│   ├── context/
+│   └── App.js
+│
+├── server/
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   └── server.js
+│
+├── public/
+├── package.json
+└── README.md
+```
 
 ---
 
-## Submission
+# Installation and Setup
 
-- ER Diagram exported and uploaded in this repository  
-- Diagram includes:
-  - Entities with attributes  
-  - Primary Keys (PK)  
-  - Foreign Keys (FK)  
-  - Relationships and cardinality  
+## Clone Repository
+
+```bash id="ff1mk1"
+git clone https://github.com/your-username/fitness-influencer-platform.git
+```
+
+## Navigate to Project Folder
+
+```bash id="z10e2m"
+cd fitness-influencer-platform
+```
+
+## Install Dependencies
+
+```bash id="r3r41v"
+npm install
+```
+
+## Run Frontend
+
+```bash id="8lty0z"
+npm start
+```
+
+## Run Backend
+
+```bash id="l2z7tb"
+npm run server
+```
 
 ---
 
-### Ereaser Link :
+# Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env id="4omrrz"
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
+PORT=5000
+CLOUDINARY_API_KEY=your_cloudinary_key
+```
+
+---
+
+# User Roles
+
+| Role               | Responsibilities                                   |
+| ------------------ | -------------------------------------------------- |
+| User               | Join programs, track fitness progress              |
+| Influencer/Trainer | Create coaching programs and interact with clients |
+| Admin              | Manage platform operations and analytics           |
+
+---
+
+# Screens Included
+
+* Home Page
+* Influencer Profile Page
+* Workout Program Page
+* Diet Plan Dashboard
+* Progress Tracking Page
+* Subscription Page
+* Live Session Page
+* Admin Dashboard
+
+---
+
+# Future Enhancements
+
+* AI-based workout recommendations
+* Wearable device integration
+* Real-time fitness analytics
+* Mobile application support
+* Multi-language support
+* Gamification and rewards system
+* AI nutrition assistant
+
+---
+
+# Applications
+
+* Online fitness coaching businesses
+* Gym management platforms
+* Personal trainer services
+* Health and wellness startups
+* Influencer subscription platforms
+
+---
+
+# Learning Outcomes
+
+Through this project, developers can learn:
+
+* Full-stack MERN development
+* Authentication and authorization
+* Subscription-based system design
+* Real-time communication integration
+* Database schema management
+* Responsive fitness dashboard development
+
+---
+
+# Deployment
+
+Deploy the project using:
+
+* Vercel
+* Render
+* Railway
+* Netlify
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+Steps:
+
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Push to your branch
+5. Create a Pull Request
+
+---
+
+# Author
+
+Kanishka Shashi
+
