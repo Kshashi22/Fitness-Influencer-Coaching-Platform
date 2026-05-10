@@ -1,0 +1,131 @@
+users [icon: user, color: blue] {
+  id serial pk  
+  userName string not null
+  email varchar(322) not null
+  password varchar(66) not null
+
+  created_at timestamp
+  updated_at timestamp
+
+}
+
+clients [icon: users, color: blue] {
+  id serial pk
+  user_id int fk
+  Trainer_id int fk
+  membership ENUM['gold','silver','bronze']
+  joined_date date
+   created_at timestamp
+  updated_at timestamp
+
+}
+
+Trainers [icon: users] {
+  id serial pk
+  user_id int fk
+  catatgory  ENUM['consultaion', 'live_coaching','zym_trainer']
+  
+  
+  joined_date date
+   created_at timestamp
+  updated_at timestamp
+ 
+}
+
+Trainer_details[icon:info,color:green]{
+id serial pk
+tainer_id int fk
+Name varchar(50) not null
+adress text not null
+exerience text 
+ratings ENUM['1','2','3','4','5'] 
+ created_at timestamp
+  updated_at timestamp
+}
+
+client_detail[icon: info] {
+  id serial pk
+  client_id int fk
+ Trainer_id string not null
+  Name varchar(50) not null
+  adress text not null
+ created_at timestamp
+  updated_at timestamp
+
+}
+checkIn [icon:report,color:yellow]{
+   id serial pk
+   last_session date
+   next_session date
+   submitted_at date
+    created_at timestamp
+  updated_at timestamp
+
+}
+logs[icon:logstash]{
+   id serial pk
+   checkIn_id int fk
+   Trainer_id int fk
+   Weight int not null
+   height int not null
+   status_Report text
+
+  created_at timestamp
+  updated_at timestamp
+
+}
+health_plans[]{
+  id serial pk
+  checkin_id int fk
+  tainer_id int fk
+  type ENUM['diet','workout','yoga']
+  duratin time
+  status ENUM['complted','ongoing']
+
+  created_at timestamp
+  updated_at timestamp
+
+}
+
+plan_details[icon:azure-offers,color:gold]{
+  id serial pk
+   type enum['consultaion','live','zym']
+   prices enum[]
+   dutaion time
+   details text
+
+   purchased_at timestamp
+   valid_till timestamp
+    created_at timestamp
+  updated_at timestamp
+
+}
+payment[icon:payment]{
+  id serial pk
+  client_id int fk
+  payment_id int fk
+  amount DECIMAL not null
+  status ENUM['paid','pending','failed','refunded']
+  method varchar(50)
+   created_at timestamp
+  updated_at timestamp
+}
+
+
+
+
+users.id<clients.id
+users.id <Trainers.id
+Trainers.id <Trainer_details.id
+clients.id <client_detail.id
+client_detail.id - checkIn.id
+checkIn.id >Trainer_details.id
+clients.id <plan_details.id
+clients.id <payment.id
+payment.id - plan_details.id
+Trainer_details.id<client_detail.id
+checkIn.id -logs.id
+health_plans.id >checkIn.id
+
+
+
